@@ -30,11 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ prompt: prompt })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
                 chatgptResult.innerText = data.choices[0].text;
             } catch (error) {
-                console.error(error);
-                chatgptResult.innerText = 'Error fetching results';
+                console.error('Error fetching results:', error);
+                chatgptResult.innerText = `Error fetching results: ${error.message}`;
             }
 
             hidePleaseWait();
@@ -58,6 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ prompt: prompt, imageSize: imageSize })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
                 const img = document.createElement('img');
                 img.src = data.data[0].url;
@@ -67,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 dalleResult.innerHTML = '';
                 dalleResult.appendChild(img);
             } catch (error) {
-                console.error(error);
-                dalleResult.innerText = 'Error fetching results';
+                console.error('Error fetching results:', error);
+                dalleResult.innerText = `Error fetching results: ${error.message}`;
             }
 
             hidePleaseWait();

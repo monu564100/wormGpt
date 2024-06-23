@@ -10,6 +10,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const OPENAI_API_KEY = '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';
+const OPENAI_ORG_ID = 'org-ASIvCByiZsOJWQqYQCxuKOeN';
+const OPENAI_PROJECT_ID = 'your_project_id';
 
 app.post('/api/chatgpt', async (req, res) => {
     try {
@@ -19,12 +21,14 @@ app.post('/api/chatgpt', async (req, res) => {
             prompt: prompt,
             max_tokens: 500,
             n: 1,
-            stop: "null",
+            stop: null,
             temperature: 0
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'OpenAI-Organization': OPENAI_ORG_ID,
+                'OpenAI-Project': OPENAI_PROJECT_ID
             }
         });
 
@@ -45,7 +49,9 @@ app.post('/api/dalle', async (req, res) => {
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'OpenAI-Organization': OPENAI_ORG_ID,
+                'OpenAI-Project': OPENAI_PROJECT_ID
             }
         });
 

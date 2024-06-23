@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Replace with your actual OpenAI API key
 const OPENAI_API_KEY = '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';
 
 app.post('/api/chatgpt', async (req, res) => {
@@ -31,7 +30,7 @@ app.post('/api/chatgpt', async (req, res) => {
 
         res.json(response.data);
     } catch (error) {
-        console.error(error);
+        console.error('Error in backend:', error);
         res.status(500).json({ error: 'Error fetching results' });
     }
 });
@@ -52,7 +51,7 @@ app.post('/api/dalle', async (req, res) => {
 
         res.json(response.data);
     } catch (error) {
-        console.error(error);
+        console.error('Error in backend:', error);
         res.status(500).json({ error: 'Error fetching results' });
     }
 });

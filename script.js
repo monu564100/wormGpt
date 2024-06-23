@@ -1,5 +1,3 @@
-const openAIBearerToken = 'sk-proj-NnorGzp5sVy0KcboOVyAT3BlbkFJzbZ69ECf1p1VCQcLzDW5';
-
 document.addEventListener('DOMContentLoaded', () => {
     const chatgptForm = document.getElementById('chatgpt-form');
     const chatgptResult = document.getElementById('chatgpt-result');
@@ -24,20 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
             showPleaseWait();
 
             try {
-                const response = await fetch('https://api.openai.com/v1/completions', {
+                const response = await fetch('http://localhost:5000/api/chatgpt', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${openAIBearerToken}`
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        model: "text-davinci-003",
-                        prompt: prompt,
-                        max_tokens: 500,
-                        n: 1,
-                        stop: "null",
-                        temperature: 0
-                    })
+                    body: JSON.stringify({ prompt: prompt })
                 });
 
                 const data = await response.json();
@@ -60,22 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
             showPleaseWait();
 
             try {
-                const response = await fetch('https://api.openai.com/v1/images/generations', {
+                const response = await fetch('http://localhost:5000/api/dalle', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${openAIBearerToken}`
+                        'Content-Type': 'application/json'
                     },
-
-                    body: JSON.stringify({
-                        "prompt": prompt,
-                        "n": 1,
-                        "size": imageSize
-                    })
+                    body: JSON.stringify({ prompt: prompt, imageSize: imageSize })
                 });
 
                 const data = await response.json();
-                console.log(data);
                 const img = document.createElement('img');
                 img.src = data.data[0].url;
                 img.alt = prompt;
@@ -105,7 +88,6 @@ function setActiveNavItem() {
             activeNavItem = document.getElementById('nav-dalle');
             break;
         default:
-            // No active nav item for index.html
             return;
     }
 
@@ -116,5 +98,4 @@ function setActiveNavItem() {
 
 document.addEventListener('DOMContentLoaded', () => {
     setActiveNavItem();
-    // The rest of your existing code...
 });
